@@ -1,5 +1,7 @@
 import express from "express";
-import upload from "../middleware/multerMiddleware.js";
+//import upload from "../middleware/multerMiddleware.js";
+import upload from "../middleware/multerCloudinary.js";
+
 import {
   createProduct,
   updateProduct,
