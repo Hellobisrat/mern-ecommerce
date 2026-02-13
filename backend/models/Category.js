@@ -1,18 +1,26 @@
+
+
 import mongoose from "mongoose";
 
-const CategorySchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  slug: { type: String, unique: true },
-  description: String,
-  image: String, // category banner or icon
-  parentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-    default: null
-  },
-  isActive: { type: Boolean, default: true },
-  sortOrder: { type: Number, default: 0 }
-}, { timestamps: true });
+const Schema = mongoose.Schema;
 
-const Category = mongoose.model("Category", CategorySchema);
-export default Category;
+const CategorySchema = new Schema(
+  {
+    name: { type: String, required: true },
+    slug: { type: String, unique: true },
+    description: { type: String, default: "" },
+    image: { type: String, default: null },
+
+    parentId: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      default: null
+    },
+
+    isActive: { type: Boolean, default: true },
+    sortOrder: { type: Number, default: 0 }
+  },
+  { timestamps: true }
+);
+
+export default mongoose.model("Category", CategorySchema);
