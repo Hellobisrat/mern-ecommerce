@@ -1,4 +1,7 @@
 import express from "express";
+import { body } from "express-validator";
+import { validateRequest } from "../middleware/validateRequest.js";
+
 
 // AUTH CONTROLLER
 import {
@@ -29,8 +32,29 @@ const router = express.Router();
 // =========================
 // AUTH ROUTES
 // =========================
-router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.post(
+  "/register",
+  [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("email").isEmail().withMessage("Valid email is required"),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters")
+  ],
+  validateRequest,
+  registerUser
+);
+
+router.post(
+  "/login",
+  [
+    body("email").isEmail().withMessage("Valid email is required"),
+    body("password").notEmpty().withMessage("Password is required")
+  ],
+  validateRequest,
+  loginUser
+);
+
 router.get("/me", protect, getMe);
 router.put("/me", protect, updateProfile);
 router.post("/logout", protect, logoutUser);
