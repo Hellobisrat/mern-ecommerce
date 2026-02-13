@@ -9,18 +9,14 @@ const productSchema = new Schema({
   images:[String],
   price:{ type: Number, required: true, min: 0 },
   discountPrice:Number,
-  stock:{type: Number, default: 0 },
   sku:String,
   categoryId:{
   type: mongoose.Schema.Types.ObjectId,
   ref: "Category"
 }
 ,
-  brand:String,
-  attribute:{
-    color:[String],
-    size:[String]
-  }
+  brand:String
+ 
 },{ timestamps: true }
 )
 
