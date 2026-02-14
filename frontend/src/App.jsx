@@ -8,7 +8,7 @@ import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -26,6 +26,13 @@ export default function App() {
           </Route>
           <Route element={<ProtectedRoute adminOnly />}>
             <Route path="/admin" element={<AdminDashboard />} />
+             <Route path="/admin" element={<AdminDashboard />} />
+             <Route path="/admin/products" element={<AdminProducts />} />
+             <Route path="/admin/products/new" element={<AdminAddProduct />} />
+             <Route path="/admin/products/:id" element={<AdminEditProduct />} />
+             <Route path="/admin/orders" element={<AdminOrders />} />
+             <Route path="/admin/users" element={<AdminUsers />} />
+
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

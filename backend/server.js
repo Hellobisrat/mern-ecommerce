@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import cartRoutes  from './routes/cartRoute.js'
@@ -20,6 +21,12 @@ const app = express();
 
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
+app.use(cors({
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);

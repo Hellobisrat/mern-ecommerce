@@ -6,7 +6,11 @@ export const useUserStore = create((set) => ({
   loading: false,
   error: null,
 
-  setUser: (user) => set({ user }),
+  setUser: (user) => {
+  console.log("Setting user:", user);
+  set({ user });
+},
+
 
   fetchProfile: async () => {
     try {
@@ -22,7 +26,7 @@ export const useUserStore = create((set) => ({
     try {
       set({ loading: true, error: null });
       const { data } = await api.post("/users/login", { email, password });
-      set({ user: data, loading: false });
+      set({ user: data.user, loading: false });
       return true;
     } catch (error) {
       set({ error: error.response?.data?.message || "Login failed", loading: false });
@@ -34,7 +38,7 @@ export const useUserStore = create((set) => ({
     try {
       set({ loading: true, error: null });
       const { data } = await api.post("/users/register", payload);
-      set({ user: data, loading: false });
+      set({ user: data.user, loading: false });
       return true;
     } catch (error) {
       set({ error: error.response?.data?.message || "Registration failed", loading: false });

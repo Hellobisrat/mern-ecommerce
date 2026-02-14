@@ -3,6 +3,7 @@ import { useUserStore } from "../store/userStore";
 
 export default function ProtectedRoute({ adminOnly = false }) {
   const { user, loading } = useUserStore();
+  console.log("ProtectedRoute user:", user);
 
   if (loading) return null;
 
