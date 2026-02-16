@@ -16,7 +16,7 @@ export default function ProductDetails() {
     const fetchProduct = async () => {
       try {
         const { data } = await api.get(`/products/${id}`);
-        setProduct(data);
+         setProduct(data.product);
       } finally {
         setLoading(false);
       }
@@ -42,7 +42,7 @@ export default function ProductDetails() {
     <div className="grid gap-10 md:grid-cols-2">
       <div className="overflow-hidden rounded-2xl border bg-white">
         <img
-          src={product.image}
+          src={product.images[0]}
           alt={product.name}
           className="h-full w-full object-cover"
         />
