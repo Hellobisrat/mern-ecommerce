@@ -5,7 +5,7 @@ import { useUserStore } from "../store/userStore";
 import Loader from "../components/Loader";
 
 export default function Cart() {
-  const { items, loadCart, loading, total, removeFromCart } = useCartStore();
+  const { items, loadCart, loading, total, removeFromCart,updateCart } = useCartStore();
   const { user } = useUserStore();
   const navigate = useNavigate();
 
@@ -44,39 +44,87 @@ export default function Cart() {
       </div>
     );
   }
-
+  if (!items.length) {
+  return <EmptyCartUI />
+   }
   return (
     <div className="grid gap-8 md:grid-cols-[2fr,1fr]">
       <div className="space-y-4">
         <h1 className="text-xl font-semibold text-gray-900">Your cart</h1>
         <div className="space-y-3">
+          
           {items.map((item) => (
-            <div
-              key={item._id}
-              className="flex items-center justify-between rounded-xl border bg-white px-4 py-3"
-            >
-              <div>
-                <p className="text-sm font-medium text-gray-900">
-                  {item.productId?.name || "Product"}
-                </p>
-                <p className="text-xs text-gray-500">
-                  Qty: {item.quantity} · ${item.price.toFixed(2)}
-                </p>
-              </div>
-              <button
-                onClick={() =>
-                  removeFromCart({
-                    userId: user._id,
-                    productId: item.productId,
-                    variantId: item.variantId,
-                  })
-                }
-                className="text-xs font-medium text-red-500 hover:text-red-600"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
+  <div
+    key={item._id}
+    className="flex items-center justify-between gap-4 rounded-xl border bg-white p-4"
+  >
+    {/* Product Image */}
+    <img
+      src={item.productId?.images?.[0]}
+      alt={item.productId?.name}
+      className="h-16 w-16 rounded object-cover border"
+    />
+
+    {/* Product Info */}
+    <div className="flex-1">
+      <p className="text-sm font-semibold text-gray-900">
+        {item.productId?.name || "Product"}
+      </p>
+
+      {/* Quantity Controls */}
+      <div className="flex items-center gap-3 mt-2">
+        <button
+          onClick={() =>
+            updateCart({
+              userId: user._id,
+              productId: item.productId,
+              variantId: item.variantId,
+              quantity: item.quantity - 1,
+            })
+          }
+          disabled={item.quantity <= 1}
+          className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+        >
+          –
+        </button>
+
+        <span className="text-sm font-semibold">{item.quantity}</span>
+
+        <button
+          onClick={() =>
+            updateCart({
+              userId: user._id,
+              productId: item.productId,
+              variantId: item.variantId,
+              quantity: item.quantity + 1,
+            })
+          }
+          className="px-2 py-1 bg-gray-200 rounded"
+        >
+          +
+        </button>
+      </div>
+
+      <p className="text-xs text-gray-500 mt-1">
+        ${item.price.toFixed(2)} each
+      </p>
+    </div>
+
+    {/* Remove Button */}
+    <button
+      onClick={() =>
+        removeFromCart({
+          userId: user._id,
+          productId: item.productId,
+          variantId: item.variantId,
+        })
+      }
+      className="text-xs font-medium text-red-500 hover:text-red-600"
+    >
+      Remove
+    </button>
+  </div>
+))}
         </div>
       </div>
 

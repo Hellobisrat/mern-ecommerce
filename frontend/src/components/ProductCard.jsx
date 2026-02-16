@@ -4,22 +4,30 @@ import { useCartStore } from "../store/cartStore";
 export default function ProductCard({ product, userId }) {
   const { addToCart } = useCartStore();
 
-  const handleAdd = () => {
-    if (!userId) return; // later: handle guest cart
+  
+     const handleAdd = () => {
+    if (!userId) {
+      console.log("User not logged in");
+      return;
+    }
+    
+
     addToCart({
       userId,
       productId: product._id,
-      variantId: product.variants?.[0]?._id || null,
       price: product.price,
       quantity: 1,
     });
+    console.log('product added')
   };
+
+    
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
       <Link to={`/product/${product._id}`} className="relative block h-56 overflow-hidden">
         <img
-          src={product.image}
+          src={product.images?.[0]}
           alt={product.name}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         />
@@ -35,6 +43,7 @@ export default function ProductCard({ product, userId }) {
           <h3 className="line-clamp-2 text-sm font-semibold text-gray-900">
             {product.name}
           </h3>
+      
           <p className="text-sm font-semibold text-indigo-600">
             ${product.price.toFixed(2)}
           </p>
@@ -43,7 +52,7 @@ export default function ProductCard({ product, userId }) {
 
         <div className="mt-auto flex items-center justify-between pt-2">
           <Link
-            to={`/product/${product._id}`}
+           to={`/products/${product._id}`}
             className="text-xs font-medium text-gray-600 hover:text-gray-900"
           >
             View details

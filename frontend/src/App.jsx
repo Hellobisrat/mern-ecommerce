@@ -9,6 +9,11 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminAddProduct from './pages/admin/AdminAddProduct';
+import AdminEditProduct from './pages/admin/AdminEditProduct'
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminProduct from './pages/admin/AdminProduct';
+import AdminUsers from './pages/admin/AdminUsers'
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -18,7 +23,7 @@ export default function App() {
         <Route element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/checkout" element={<Checkout />} />
@@ -27,7 +32,7 @@ export default function App() {
           <Route element={<ProtectedRoute adminOnly />}>
             <Route path="/admin" element={<AdminDashboard />} />
              <Route path="/admin" element={<AdminDashboard />} />
-             <Route path="/admin/products" element={<AdminProducts />} />
+             <Route path="/admin/products" element={<AdminProduct />} />
              <Route path="/admin/products/new" element={<AdminAddProduct />} />
              <Route path="/admin/products/:id" element={<AdminEditProduct />} />
              <Route path="/admin/orders" element={<AdminOrders />} />
