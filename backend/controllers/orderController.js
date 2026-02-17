@@ -36,12 +36,14 @@ export const getUserOrder = async (req,res)=>{
    const userId = req.user?._id || req.params.userId;
 
     const orders = await Order.find({ userId })
+      .populate("userId", "name email")
       .populate("items.productId")
       .populate("items.variantId");
 
     res.status(200).json({ success: true, orders });
 
   } catch (error) {
+    console.error("ADMIN ORDER ERROR:", error);
     res.status(500).json({success:false,message:error.message})
   }
 }

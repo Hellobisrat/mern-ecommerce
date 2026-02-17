@@ -14,6 +14,7 @@ import AdminEditProduct from './pages/admin/AdminEditProduct'
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminProduct from './pages/admin/AdminProduct';
 import AdminUsers from './pages/admin/AdminUsers'
+import OrderSuccess from "./pages/OrderSucess";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -39,6 +40,7 @@ export default function App() {
              <Route path="/admin/users" element={<AdminUsers />} />
 
           </Route>
+          <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>

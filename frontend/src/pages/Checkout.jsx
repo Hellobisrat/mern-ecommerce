@@ -6,7 +6,7 @@ import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
-  const { cart, total, clearCart } = useCartStore();   // <-- FIXED
+ const { items: cart, total, clearCart } = useCartStore();
   const { user } = useUserStore();
   const stripe = useStripe();
   const elements = useElements();
@@ -26,6 +26,11 @@ export default function Checkout() {
 
   const handleCheckout = async () => {
     if (!stripe || !elements) return;
+
+    if (!Array.isArray(cart) || cart.length === 0) {
+      alert("Your cart is empty");
+      return;
+    }
 
     setLoading(true);
 
@@ -54,13 +59,20 @@ export default function Checkout() {
         return;
       }
 
-      // 3. Create order in backend
-      await api.post("/orders", {
-        userId: user._id,
+      if (paymentIntent.status !== "succeeded") {
+        alert("Payment not completed");
+        setLoading(false);
+        return;
+      }
+
+      // 3. Create order
+      const orderRes = await api.post("/orders", {
+        userId: user?._id,
         items: cart.map((item) => ({
-          productId: item.productId,
-          variantId: item.variantId,
+          productId: item.productId || item._id || item.product?._id,
+          variantId: item.variantId || item.variant?._id,
           quantity: item.quantity,
+          price: item.price,
         })),
         shippingAddress: shipping,
         payment: {
@@ -77,14 +89,13 @@ export default function Checkout() {
         },
       });
 
-      // 4. Clear cart
-      clearCart();
+      console.log("ORDER CREATED:", orderRes.data);
 
-      // 5. Redirect to success page
+      clearCart();
       navigate("/order-success");
     } catch (err) {
-      console.error(err);
-      alert("Payment failed");
+      console.error("ORDER ERROR:", err.response?.data || err.message);
+      alert("Order failed: " + (err.response?.data?.message || err.message));
     }
 
     setLoading(false);

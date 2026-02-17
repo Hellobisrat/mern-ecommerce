@@ -13,6 +13,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const orders = await Order.find()
+      .populate("userId", "name email")  
       .populate("items.productId")
       .populate("items.variantId");
 

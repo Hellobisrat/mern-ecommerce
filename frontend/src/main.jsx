@@ -7,6 +7,8 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
+console.log("Stripe key:", import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
  
