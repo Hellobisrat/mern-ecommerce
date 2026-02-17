@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
@@ -12,10 +13,11 @@ const productSchema = new Schema(
     discountPrice: Number,
     sku: String,
 
-    categoryId: {
-      type: Schema.Types.ObjectId,
-      ref: "Category"
-    },
+    // categoryId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Category",
+    //   required: false, 
+    // },
 
     brand: String
   },

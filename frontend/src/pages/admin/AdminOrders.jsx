@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../utils/api.js";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/orders").then((res) => setOrders(res.data.orders));
+    api.get("/orders").then((res) => setOrders(res.data.orders));
   }, []);
 
   return (

@@ -6,7 +6,7 @@ import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
-  const { items, total, clearCart } = useCartStore();
+  const { cart, total, clearCart } = useCartStore();   // <-- FIXED
   const { user } = useUserStore();
   const stripe = useStripe();
   const elements = useElements();
@@ -57,9 +57,17 @@ export default function Checkout() {
       // 3. Create order in backend
       await api.post("/orders", {
         userId: user._id,
-        items,
+        items: cart.map((item) => ({
+          productId: item.productId,
+          variantId: item.variantId,
+          quantity: item.quantity,
+        })),
         shippingAddress: shipping,
-        payment: { method: "card" },
+        payment: {
+          method: "card",
+          status: "paid",
+          stripePaymentIntentId: paymentIntent.id,
+        },
         totals: {
           subtotal: total(),
           tax: 0,
