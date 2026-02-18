@@ -11,18 +11,7 @@ import Order from "../models/Order.js";
 const router = express.Router();
 
 // ADMIN: Get all orders
-router.get("/", async (req, res) => {
-  try {
-    const orders = await Order.find()
-      .populate("userId", "name email")  
-      .populate("items.productId")
-      .populate("items.variantId");
 
-    res.status(200).json({ success: true, orders });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
 // ADMIN: Get all orders
 router.get("/", getAllOrders);
 

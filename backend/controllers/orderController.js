@@ -1,5 +1,6 @@
 
 import Order from "../models/Order.js";
+import Cart from "../models/Cart.js"
 
 export const createOrder = async (req,res)=>{
   try {
@@ -24,6 +25,12 @@ export const createOrder = async (req,res)=>{
       status: "pending",
       history: [{ status: "pending" }]
     });
+    // 2. Clear the user's cart after successful order
+    await Cart.findOneAndUpdate(
+      { userId },
+      { items: [] }
+    );
+
 
     return res.status(201).json({success:true,order})
   } catch (error) {
@@ -33,9 +40,9 @@ export const createOrder = async (req,res)=>{
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate("userId", "name email")     // admin needs user info
+      .populate("userId", "name email")
       .populate("items.productId")
-      .populate("items.variantId");
+      
 
     res.status(200).json({ success: true, orders });
   } catch (error) {
@@ -51,7 +58,8 @@ export const getUserOrder = async (req,res)=>{
     const orders = await Order.find({ userId })
       .populate("userId", "name email")
       .populate("items.productId")
-      .populate("items.variantId");
+      
+;
 
     res.status(200).json({ success: true, orders });
 

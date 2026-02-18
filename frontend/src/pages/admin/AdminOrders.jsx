@@ -27,8 +27,8 @@ export default function AdminOrders() {
             {orders.map((o) => (
               <tr key={o._id} className="border-b">
                 <td className="p-3">{o._id}</td>
-                <td className="p-3">{o.userId?.name}</td>
-                <td className="p-3">${o.total}</td>
+                <td className="p-3">{o.userId?.name || "Unknown user"}</td>
+                <td className="p-3">${o.totals?.subtotal}</td>
                 <td className="p-3">
                   <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded">
                     {o.status}

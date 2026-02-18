@@ -8,10 +8,13 @@ export default function Cart() {
   const { items, loadCart, loading, total, removeFromCart,updateCart } = useCartStore();
   const { user } = useUserStore();
   const navigate = useNavigate();
-
   useEffect(() => {
-    if (user?._id) loadCart(user._id);
-  }, [user, loadCart]);
+  if (window.location.pathname !== "/order-success" && user?._id) {
+    loadCart(user._id);
+  }
+}, [user]);
+
+ 
 
   if (!user) {
     return (

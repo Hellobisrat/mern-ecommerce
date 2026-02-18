@@ -6,7 +6,9 @@ import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
- const { items: cart, total, clearCart } = useCartStore();
+const cart = useCartStore((state) => state.items);
+const total = useCartStore((state) => state.total);
+const clearCart = useCartStore((state) => state.clearCart);
   const { user } = useUserStore();
   const stripe = useStripe();
   const elements = useElements();
@@ -93,6 +95,7 @@ export default function Checkout() {
 
       clearCart();
       navigate("/order-success");
+      console.log("CART AFTER CLEAR:", useCartStore.getState().items);
     } catch (err) {
       console.error("ORDER ERROR:", err.response?.data || err.message);
       alert("Order failed: " + (err.response?.data?.message || err.message));
