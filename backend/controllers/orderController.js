@@ -30,6 +30,19 @@ export const createOrder = async (req,res)=>{
     res.status(500).json({success:false,message:error.message})
   }
 }
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate("userId", "name email")     // admin needs user info
+      .populate("items.productId")
+      .populate("items.variantId");
+
+    res.status(200).json({ success: true, orders });
+  } catch (error) {
+    console.error("ADMIN ORDERS ERROR:", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 export const getUserOrder = async (req,res)=>{
   try {

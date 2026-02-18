@@ -3,7 +3,8 @@ import {
   createOrder,
   getUserOrder,
   updateOrderStatus,
-  deleteOrder
+  deleteOrder,
+  getAllOrders
 } from "../controllers/orderController.js";
 import Order from "../models/Order.js";
 
@@ -22,6 +23,8 @@ router.get("/", async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
+// ADMIN: Get all orders
+router.get("/", getAllOrders);
 
 // USER: Get orders by userId
 router.get("/user/:userId", getUserOrder);
